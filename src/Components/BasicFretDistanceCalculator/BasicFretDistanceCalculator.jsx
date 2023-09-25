@@ -1,17 +1,20 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import FretboardDiagram from '../FretboardDiagram/FretboardDiagram';
 import { useFretboard } from '../../Utilities/FretboardContext';
 import './BasicFretDistanceCalculator.css';
 
 function BasicFretDistanceCalculator() {
-  const {storeFretDistances} = useFretboard();
-  const [state, setState] = useState({
+  const { storeFretDistances } = useFretboard();
+
+  const initialState = {
     scaleLength: '',
     fretCount: '',
     measurementUnit: 'mm',
     fretToFretPlacements: [],
     fretFromNutPlacements: [],
-  });
+  };
+
+  const [state, setState] = useState(initialState);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -30,17 +33,17 @@ function BasicFretDistanceCalculator() {
 
   const calculateFretDistance = () => {
     const { scaleLength, fretCount, measurementUnit } = state;
-    
+
     const denominator = 17.817;
-    let adjustedScaleLength = parseFloat(scaleLength);
+    let adjustedScaleLength = parseFloat(scaleLength) || 0;
 
     const conversionFactor = measurementUnit === 'mm' ? 1 : 25.4;
-    
+
     const fretToFretPlacements = [];
     const fretFromNutPlacements = [];
     let nutPosition = 0;
 
-    for (let i = 0; i < parseInt(fretCount); i++) {
+    for (let i = 0; i < parseInt(fretCount) || 0; i++) {
       const fretSpacingInMillimeters = adjustedScaleLength / denominator;
       const fretSpacingInInches = fretSpacingInMillimeters / 25.4;
 

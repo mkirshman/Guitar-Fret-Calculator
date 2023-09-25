@@ -4,37 +4,43 @@ import './FretboardDiagram.css';
 import jsPDF from 'jspdf';
 
 const FretboardDiagram = () => {
-  // Use the useFretboard hook to access fret distances from the context
   const { fretDistances } = useFretboard();
-
-  // Ensure that fretDistances and fretFromNutPlacements are defined before using them
   const fromNutData = fretDistances?.fretFromNutPlacements || [];
   const svgRef = useRef(null);
 
   const svgWidth = 1500;
   const scale = 96;
-
-  // Use optional chaining to safely access the last element in the array
   const svgHeight = fromNutData?.[fromNutData.length - 1] || 0;
 
   const downloadPDF = () => {
-    // Create a new jsPDF instance
     const doc = new jsPDF({
       orientation: 'landscape',
     });
 
-    // Get the SVG element
     const svgElement = svgRef.current;
 
-    // Convert the SVG element to a data URL
-    const svgData = new XMLSerializer().serializeToString(svgElement);
-    const svgDataURL = `data:image/svg+xml;base64,${btoa(svgData)}`;
+    // Create a canvas element and draw the SVG onto it
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
 
-    // Add the SVG to the PDF
-    doc.addImage(svgDataURL, 'JPEG', 10, 10, 280, 150);
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
 
-    // Download the PDF
-    doc.save('fretboard_diagram.pdf');
+      // Convert the canvas to a data URL with a proper MIME type
+      const canvasDataURL = canvas.toDataURL('image/jpeg', 1.0);
+
+      // Add the canvas image to the PDF
+      doc.addImage(canvasDataURL, 'JPEG', 10, 10, 280, 150);
+
+      // Download the PDF
+      doc.save('fretboard_diagram.pdf');
+    };
+
+    // Set the source of the image to the SVG data
+    img.src = 'data:image/svg+xml;base64,' + btoa(new XMLSerializer().serializeToString(svgElement));
   };
 
   return (
