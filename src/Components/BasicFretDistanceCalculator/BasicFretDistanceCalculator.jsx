@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import FretboardDiagram from '../FretboardDiagram/FretboardDiagram';
+
 import './BasicFretDistanceCalculator.css';
 
 class BasicFretDistanceCalculator extends Component {
@@ -57,7 +59,7 @@ class BasicFretDistanceCalculator extends Component {
   render() {
     return (
       <div className="calculator-container">
-        <h2>Basic Fret Distance Calculator</h2>
+        <h2>Basic Fret Distance Calculator {}</h2>
         <div className="input-section">
           <label>
             Scale Length:
@@ -120,8 +122,13 @@ class BasicFretDistanceCalculator extends Component {
             ))}
           </ul>
         </div>
+        <div>
+      <FretboardDiagram/>
       </div>
+      </div>
+      
     );
+    
   }
 }
 
