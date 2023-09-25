@@ -51,6 +51,7 @@ function BasicFretDistanceCalculator() {
     }
 
     storeFretDistances({
+      ...state,
       fretToFretPlacements,
       fretFromNutPlacements,
     });
