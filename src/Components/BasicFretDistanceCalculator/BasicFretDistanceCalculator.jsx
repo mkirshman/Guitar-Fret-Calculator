@@ -1,44 +1,49 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import FretboardDiagram from '../FretboardDiagram/FretboardDiagram';
+import { useFretboard } from '../../Utilities/FretboardContext';
 import './BasicFretDistanceCalculator.css';
 
-class BasicFretDistanceCalculator extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      scaleLength: '',
-      fretCount: '',
-      measurementUnit: 'mm',
-      fretToFretPlacements: [],
-      fretFromNutPlacements: [],
-    };
-  }
+function BasicFretDistanceCalculator() {
+  const { storeFretDistances } = useFretboard();
 
-  handleInputChange = (event) => {
+  const initialState = {
+    scaleLength: '',
+    fretCount: '',
+    measurementUnit: 'mm',
+    fretToFretPlacements: [],
+    fretFromNutPlacements: [],
+  };
+
+  const [state, setState] = useState(initialState);
+
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
-    this.setState({
+    setState({
+      ...state,
       [name]: value,
     });
   };
 
-  handleUnitChange = (event) => {
-    this.setState({
+  const handleUnitChange = (event) => {
+    setState({
+      ...state,
       measurementUnit: event.target.value,
     });
   };
 
-  calculateFretDistance = () => {
-    const { scaleLength, fretCount, measurementUnit } = this.state;
-    const denominator = 17.817;
-    let adjustedScaleLength = parseFloat(scaleLength);
+  const calculateFretDistance = () => {
+    const { scaleLength, fretCount, measurementUnit } = state;
 
-    // Conversion factor: 1 inch = 25.4 mm
+    const denominator = 17.817;
+    let adjustedScaleLength = parseFloat(scaleLength) || 0;
+
     const conversionFactor = measurementUnit === 'mm' ? 1 : 25.4;
 
     const fretToFretPlacements = [];
     const fretFromNutPlacements = [];
     let nutPosition = 0;
 
-    for (let i = 0; i < parseInt(fretCount); i++) {
+    for (let i = 0; i < parseInt(fretCount) || 0; i++) {
       const fretSpacingInMillimeters = adjustedScaleLength / denominator;
       const fretSpacingInInches = fretSpacingInMillimeters / 25.4;
 
@@ -48,81 +53,89 @@ class BasicFretDistanceCalculator extends Component {
       adjustedScaleLength -= fretSpacingInMillimeters;
     }
 
-    this.setState({
+    storeFretDistances({
+      ...state,
+      fretToFretPlacements,
+      fretFromNutPlacements,
+    });
+
+    setState({
+      ...state,
       fretToFretPlacements,
       fretFromNutPlacements,
     });
   };
 
-  render() {
-    return (
-      <div className="calculator-container">
-        <h2>Basic Fret Distance Calculator</h2>
-        <div className="input-section">
-          <label>
-            Scale Length:
-            <input
-              type="text"
-              name="scaleLength"
-              value={this.state.scaleLength}
-              onChange={this.handleInputChange}
-            />
-          </label>
-          <label>
-            Fret Count:
-            <input
-              type="text"
-              name="fretCount"
-              value={this.state.fretCount}
-              onChange={this.handleInputChange}
-            />
-          </label>
-        </div>
-        <div className="unit-section">
-          <span>Measurement Unit:</span>
-          <label>
-            <input
-              type="radio"
-              name="measurementUnit"
-              value="mm"
-              checked={this.state.measurementUnit === 'mm'}
-              onChange={this.handleUnitChange}
-            />
-            mm
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="measurementUnit"
-              value="inches"
-              checked={this.state.measurementUnit === 'inches'}
-              onChange={this.handleUnitChange}
-            />
-            inches
-          </label>
-        </div>
-        <button onClick={this.calculateFretDistance}>Calculate</button>
-        <div className="result-section">
-          <h3>Fret Distance from Nut:</h3>
-          <ul>
-            {this.state.fretFromNutPlacements.map((distance, index) => (
-              <li key={index}>
-                {distance} {this.state.measurementUnit}
-              </li>
-            ))}
-          </ul>
-          <h3>Fret-to-Fret Distance:</h3>
-          <ul>
-            {this.state.fretToFretPlacements.map((distance, index) => (
-              <li key={index}>
-                {distance} {this.state.measurementUnit}
-              </li>
-            ))}
-          </ul>
-        </div>
+  return (
+    <div className="calculator-container">
+      <h2>Basic Fret Distance Calculator</h2>
+      <div className="input-section">
+        <label>
+          Scale Length:
+          <input
+            type="text"
+            name="scaleLength"
+            value={state.scaleLength}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label>
+          Fret Count:
+          <input
+            type="text"
+            name="fretCount"
+            value={state.fretCount}
+            onChange={handleInputChange}
+          />
+        </label>
       </div>
-    );
-  }
+      <div className="unit-section">
+        <span>Measurement Unit:</span>
+        <label>
+          <input
+            type="radio"
+            name="measurementUnit"
+            value="mm"
+            checked={state.measurementUnit === 'mm'}
+            onChange={handleUnitChange}
+          />
+          mm
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="measurementUnit"
+            value="inches"
+            checked={state.measurementUnit === 'inches'}
+            onChange={handleUnitChange}
+          />
+          inches
+        </label>
+      </div>
+      <button onClick={calculateFretDistance}>Calculate</button>
+      <div className="result-section">
+        <h3>Fret Distance from Nut:</h3>
+        <ul>
+          {state.fretFromNutPlacements.map((distance, index) => (
+            <li key={index}>
+              {distance} {state.measurementUnit}
+            </li>
+          ))}
+        </ul>
+        <h3>Fret-to-Fret Distance:</h3>
+        <ul>
+          {state.fretToFretPlacements.map((distance, index) => (
+            <li key={index}>
+              {distance} {state.measurementUnit}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <FretboardDiagram />
+      </div>
+    </div>
+  );
 }
 
 export default BasicFretDistanceCalculator;
