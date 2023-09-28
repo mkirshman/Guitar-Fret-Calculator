@@ -3,14 +3,18 @@ import { useFretboard } from '../../Utilities/FretboardContext';
 import './FretboardDiagram.css';
 import jsPDF from 'jspdf';
 
-const FretboardDiagram = () => {
+const FretboardDiagram = ({ measurementUnit }) => {
   const { fretDistances } = useFretboard();
   const fromNutData = fretDistances?.fretFromNutPlacements || [];
   const svgRef = useRef(null);
 
   const svgWidth = 1500;
-  const scale = 96;
+  const scale = 96 / 25.4; // Convert scale to inches (96 pixels per inch)
   const svgHeight = fromNutData?.[fromNutData.length - 1] || 0;
+
+  const convertToInches = (value, unit) => {
+    return unit === 'mm' ? (value / 25.4).toFixed(2) : value;
+  };
 
   const downloadPDF = () => {
     const doc = new jsPDF({
@@ -53,16 +57,16 @@ const FretboardDiagram = () => {
         height={(svgHeight * scale) + 100}
         ref={svgRef}
       >
-        <rect width="100%" height={svgHeight} fill="white" />
+        
         <line x1="0" y1="0" x2={svgWidth} y2="0" stroke="black" strokeWidth="2" />
         {fromNutData.map((element, index) => (
           <line
             key={index}
             className="fret-line"
             x1="0" // Adjust this value for your desired horizontal offset
-            y1={element * scale}
+            y1={convertToInches(element, measurementUnit) * scale}
             x2={svgWidth} // Adjust this value for your desired horizontal offset
-            y2={element * scale}
+            y2={convertToInches(element, measurementUnit) * scale}
             stroke="gray" // You can adjust the color here
             strokeWidth="1" // You can adjust the line thickness here
           />
