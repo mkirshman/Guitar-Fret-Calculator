@@ -156,21 +156,21 @@ function BasicFretDistanceCalculator() {
       <button onClick={calculateFretDistance}>Calculate</button>
       <div className="result-section">
         <h3>Fret Distance from Nut:</h3>
-        <ul>
+        <div className="fret-calc-value-list">
           {state.fretFromNutPlacements.map((distance, index) => (
-            <li key={index}>
-              {distance} {state.measurementUnit === 'mm' ? 'mm' : 'inches'}
-            </li>
+            <div key={index}>
+              {`Fret ${index+1}: ${distance}`} {state.measurementUnit === 'mm' ? 'mm' : 'inches'}
+            </div>
           ))}
-        </ul>
+        </div>
         <h3>Fret-to-Fret Distance:</h3>
-        <ul>
+        <div className="fret-calc-value-list">
           {state.fretToFretPlacements.map((distance, index) => (
-            <li key={index}>
-              {distance} {state.measurementUnit === 'mm' ? 'mm' : 'inches'}
-            </li>
+            <div key={index}>
+              {`Fret ${index+1}: ${distance}`} {state.measurementUnit === 'mm' ? 'mm' : 'inches'}
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     
     </div>
