@@ -13,7 +13,9 @@ const FretboardDiagram = ({ measurementUnit }) => {
   const svgHeight = fromNutData?.[fromNutData.length - 1] || 0;
 
   const convertToInches = (value, unit) => {
-    return unit === 'mm' ? (value / 25.4).toFixed(2) : value;
+    console.log(unit);
+    return "";
+    // return unit === 'mm' ? (value / 25.4).toFixed(2) : value;
   };
 
   const downloadPDF = () => {

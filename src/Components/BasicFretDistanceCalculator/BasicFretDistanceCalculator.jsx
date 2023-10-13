@@ -31,12 +31,11 @@ function BasicFretDistanceCalculator() {
     if (state.scaleLength !== '') {
       const currentUnit = state.measurementUnit;
       let newScaleLength = parseFloat(state.scaleLength);
-  
       // Convert the scale length value based on the selected unit
       if (currentUnit === 'mm' && newUnit === 'inches') {
-        newScaleLength /= 25.4; // Convert from mm to inches
+        newScaleLength = newScaleLength/25.4; // Convert from mm to inches
       } else if (currentUnit === 'inches' && newUnit === 'mm') {
-        newScaleLength *= 25.4; // Convert from inches to mm
+        newScaleLength = newScaleLength*25.4; // Convert from inches to mm
       }
   
       // Convert the elements in the fret arrays
@@ -47,13 +46,6 @@ function BasicFretDistanceCalculator() {
       const convertedFretFromNutPlacements = state.fretFromNutPlacements.map((distance) =>
         (newUnit === 'mm' ? parseFloat(distance) * 25.4 : parseFloat(distance) / 25.4).toFixed(2)
       );
-
-  
-      for(let i = 0 ; i<myArray.length ; i++ ){
-        console.log('Number n the iterate: ' + i)
-      }
-      let myArray = [1, 2, 3 ,4]
-  
       setState({
         ...state,
         measurementUnit: newUnit,
