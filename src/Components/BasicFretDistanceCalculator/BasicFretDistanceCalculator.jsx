@@ -47,6 +47,12 @@ function BasicFretDistanceCalculator() {
       const convertedFretFromNutPlacements = state.fretFromNutPlacements.map((distance) =>
         (newUnit === 'mm' ? parseFloat(distance) * 25.4 : parseFloat(distance) / 25.4).toFixed(2)
       );
+
+  
+      for(let i = 0 ; i<myArray.length ; i++ ){
+        console.log('Number n the iterate: ' + i)
+      }
+      let myArray = [1, 2, 3 ,4]
   
       setState({
         ...state,
@@ -174,9 +180,7 @@ function BasicFretDistanceCalculator() {
           ))}
         </ul>
       </div>
-      <div>
-        <FretboardDiagram measurementUnit={state.measurementUnit} />
-      </div>
+    
     </div>
   );
 }

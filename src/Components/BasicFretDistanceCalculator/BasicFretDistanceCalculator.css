@@ -5,6 +5,7 @@
     margin: 0 auto;
     padding: 20px;
     background-color: #f4f4f4;
+    color:#0c0c0c;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   }
@@ -17,6 +18,8 @@
   
   .input-section {
     margin-bottom: 20px;
+    overflow: hidden;
+    padding: 0 10px;
   }
   
   label {
@@ -29,6 +32,7 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    box-sizing: border-box;
   }
   
   .unit-section {
@@ -46,7 +50,7 @@
     width: 100%;
     padding: 10px;
     background-color: #007bff;
-    color: #fff;
+    color: #0c0c0c;
     border: none;
     border-radius: 5px;
     cursor: pointer;
