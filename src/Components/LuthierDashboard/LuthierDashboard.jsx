@@ -1,31 +1,26 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import BasicFretDistanceCalculator from './../BasicFretDistanceCalculator/BasicFretDistanceCalculator';
 import MultiscaleFretDistanceCalculator from './../MultiscaleFretDistanceCalculator/MultiScaleFretDistanceCalculator';
+import FretboardDiagram from './../FretboardDiagram/FretboardDiagram';
+import './LuthierDashboard.css';
 
-class FretCalculator extends Component {
-  constructor() {
-    super();
-    this.state = {
-      selectedOption: 'basic', // Default to Basic Fret Calculation
-    };
-  }
+function FretCalculator() {
+  const [selectedOption, setSelectedOption] = useState('basic');
+  const [measurementUnit, setMeasurementUnit] = useState('mm');
 
-  handleOptionChange = (event) => {
-    this.setState({
-      selectedOption: event.target.value,
-    });
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
   };
 
-  render() {
-    return (
-      <div>
-        <h2>Choose a Fret Calculation</h2>
+  return (
+    <div className="luthier-dashboard">
+      <div className="sidebar">
         <label>
           <input
             type="radio"
             value="basic"
-            checked={this.state.selectedOption === 'basic'}
-            onChange={this.handleOptionChange}
+            checked={selectedOption === 'basic'}
+            onChange={handleOptionChange}
           />
           Basic Fret Calculation
         </label>
@@ -33,20 +28,25 @@ class FretCalculator extends Component {
           <input
             type="radio"
             value="multiscale"
-            checked={this.state.selectedOption === 'multiscale'}
-            onChange={this.handleOptionChange}
+            checked={selectedOption === 'multiscale'}
+            onChange={handleOptionChange}
           />
           Multiscale Fret Calculation
         </label>
 
-        {this.state.selectedOption === 'basic' ? (
+        <h2>Choose a Fret Calculation</h2>
+
+        {selectedOption === 'basic' ? (
           <BasicFretDistanceCalculator />
         ) : (
           <MultiscaleFretDistanceCalculator />
         )}
       </div>
-    );
-  }
+      <div className="main">
+        <FretboardDiagram measurementUnit={measurementUnit} />
+      </div>
+    </div>
+  );
 }
 
 export default FretCalculator;
