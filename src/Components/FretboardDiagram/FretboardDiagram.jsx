@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useFretboard } from '../../Utilities/FretboardContext';
 import './FretboardDiagram.css';
 import jsPDF from 'jspdf';
+// import neckOutline from '../../NECK-outline-SVG.svg';
 
 const FretboardDiagram = ({ measurementUnit }) => {
   const { fretDistances } = useFretboard();
@@ -9,7 +10,7 @@ const FretboardDiagram = ({ measurementUnit }) => {
   const svgRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const svgWidth = 1500;
+  const svgWidth = 300;
   const scale = 96 / 25.4; // Convert scale to inches (96 pixels per inch)
   const svgHeight = fromNutData?.[fromNutData.length - 1] || 0;
 
@@ -80,7 +81,13 @@ const FretboardDiagram = ({ measurementUnit }) => {
 
   return (
     <div className="fretboard-diagram">
+      <div className="zoom-buttons">
+      
+      <button onClick={downloadPDF}>Download PDF</button>
+      <button onClick={generateGCode}>Download G-Code</button>
+      </div>
       <canvas ref={canvasRef}>
+        {/* <svg src={neckOutline}/> */}
       <svg
         version="1.1"
         id="Layer_1"
@@ -89,9 +96,13 @@ const FretboardDiagram = ({ measurementUnit }) => {
         height={(svgHeight * scale) + 100}
         ref={svgRef}
       >
-        <rect width="100%" height={svgHeight} fill="white" />
+        {/* <rect width="100%" height={svgHeight}/> */}
+        <text x="0" y="20" fill="black" >Guitar Nut</text>
         <line x1="0" y1="0" x2={svgWidth} y2="0" stroke="black" strokeWidth="2" />
         {fromNutData.map((element, index) => (
+          <React.Fragment>
+          <text x="0" y={convertToInches(element, measurementUnit)+16} fill="black" >FRET {index+1}: {element} {measurementUnit}</text>
+          
           <line
             key={index}
             className="fret-line"
@@ -101,18 +112,13 @@ const FretboardDiagram = ({ measurementUnit }) => {
             y2={convertToInches(element, measurementUnit)}
             stroke="gray" // You can adjust the color here
             strokeWidth="1" // You can adjust the line thickness here
-          />
+          ></line>
+          </React.Fragment>
         ))}
       </svg>
 
       </canvas>
-      <div className="zoom-buttons">
-        <button onClick={handleZoomIn}>Zoom In</button>
-        <button onClick={handleZoomOut}>Zoom Out</button>
       
-      <button onClick={downloadPDF}>Download PDF</button>
-      <button onClick={generateGCode}>Download G-Code</button>
-      </div>
     </div>
   );
 };

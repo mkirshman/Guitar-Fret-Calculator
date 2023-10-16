@@ -3,11 +3,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background:#ccc;
+
 
   }
   canvas{
-    background:#ccc;
   }
   .fret-line {
     list-style: none;
