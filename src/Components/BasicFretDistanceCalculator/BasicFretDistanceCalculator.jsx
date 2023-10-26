@@ -101,6 +101,8 @@ function BasicFretDistanceCalculator() {
       fretToFretPlacements,
       fretFromNutPlacements,
     });
+
+    document.getElementById('fretSvg').style.display = 'block'
   };
   
   

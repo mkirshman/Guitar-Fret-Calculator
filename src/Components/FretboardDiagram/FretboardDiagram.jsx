@@ -46,6 +46,7 @@ const FretboardDiagram = ({ measurementUnit, fretCount }) => {
   const cumulativeDistance = fromNutData[fromNutData.length - 1] || 0;
 
   const percentages = fromNutData.map((distance) => (distance / cumulativeDistance) * 98);
+  const totalHeight = fromNutData[fromNutData.length-1]
 
   return (
 
@@ -56,7 +57,7 @@ const FretboardDiagram = ({ measurementUnit, fretCount }) => {
       <button onClick={generateGCode}>Download G-Code</button>
       </div>
   
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 255.19 2135.78" >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 255.19 2135.78" id="fretSvg">
 
         <g id="Layer_2" data-name="Layer 2">
         <g id="svg2">
@@ -71,7 +72,7 @@ const FretboardDiagram = ({ measurementUnit, fretCount }) => {
         <path className="cls-1 outline" d="M33.65,412.57a14.08,14.08,0,1,0,14.08-14.08,14.08,14.08,0,0,0-14.08,14.08"/>
         </g>
         <g id="_4a7e8b8e-4e17-4234-b908-591343cbd72c" data-name="4a7e8b8e-4e17-4234-b908-591343cbd72c">
-        <path className="cls-1 outline outline" d="M79.93,1.33C98.74-9.38,135.7,71.8,158.5,70.72c2.08-.1,99.28,283.29,96.26,285.57-63.54,47.89-68.77,65.58-69.14,135.2-.05,9.58.11,46,.35,88.15L197,2116.75v.07a18.29,18.29,0,0,1-18,18.6H59.26a18,18,0,0,1-18-18l0-2.36L51.35,737.33H50.7c.15-15,1.34-110.19,1.95-178.14L53,516.58h0c.08-12.33.08-21.27,0-25.09.06-15.05-20.65-41.67-52.56-49-1.93-.44,73.51-211.47,74.09-213.61,73.45-2.11,5.38-225.31,5.44-227.59"/>
+        <path className="cls-1 outline" d="M79.93,1.33C98.74-9.38,135.7,71.8,158.5,70.72c2.08-.1,99.28,283.29,96.26,285.57-63.54,47.89-68.77,65.58-69.14,135.2-.05,9.58.11,46,.35,88.15L197,2116.75v.07a18.29,18.29,0,0,1-18,18.6H59.26a18,18,0,0,1-18-18l0-2.36L51.35,737.33H50.7c.15-15,1.34-110.19,1.95-178.14L53,516.58h0c.08-12.33.08-21.27,0-25.09.06-15.05-20.65-41.67-52.56-49-1.93-.44,73.51-211.47,74.09-213.61,73.45-2.11,5.38-225.31,5.44-227.59"/>
         </g>
         <line className="cls-1 outline" x1={53.36} y1={`${23.6}%`} x2={185.36} y2={`${23.6}%`} />
         {percentages.map((yCoordinate, index) => (
