@@ -9,13 +9,18 @@ export function useFretboard() {
 
 export function FretboardProvider({ children }) {
   const [fretDistances, setFretDistances] = useState([]);
+  const [fretCount, setFretCount] = useState(0); 
 
   const storeFretDistances = (distances) => {
     setFretDistances(distances);
   };
 
+  const updateFretCount = (count) => {
+    setFretCount(count);
+  };
+
   return (
-    <FretboardContext.Provider value={{ fretDistances, storeFretDistances }}>
+    <FretboardContext.Provider value={{ fretDistances, storeFretDistances, fretCount, updateFretCount }}>
       {children}
     </FretboardContext.Provider>
   );

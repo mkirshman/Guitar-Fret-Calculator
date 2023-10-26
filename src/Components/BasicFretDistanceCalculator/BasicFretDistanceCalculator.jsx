@@ -26,8 +26,7 @@ function BasicFretDistanceCalculator() {
 
   const handleUnitChange = (event) => {
     const newUnit = event.target.value;
-  
-    // Check if the scale length field is not empty
+
     if (state.scaleLength !== '') {
       const currentUnit = state.measurementUnit;
       let newScaleLength = parseFloat(state.scaleLength);
@@ -63,56 +62,55 @@ function BasicFretDistanceCalculator() {
   
 
   const calculateFretDistance = () => {
-  const { scaleLength, fretCount, measurementUnit } = state;
-
-  const denominator = 17.817;
-  let adjustedScaleLength = parseFloat(scaleLength) || 0;
-
-  const conversionFactor = measurementUnit === 'mm' ? 1 : 25.4;
-
-  const fretToFretPlacements = [];
-  const fretFromNutPlacements = [];
-  let nutPosition = 0;
-
-  for (let i = 0; i < parseInt(fretCount) || 0; i++) {
-    const fretSpacingInMillimeters = adjustedScaleLength / denominator;
-    const fretSpacingInInches = fretSpacingInMillimeters / 25.4;
-
-    fretToFretPlacements.push(
-      (measurementUnit === 'mm'
-        ? fretSpacingInMillimeters
-        : fretSpacingInInches
-      ).toFixed(2)
-    );
-    nutPosition += fretSpacingInMillimeters;
-    fretFromNutPlacements.push(
-      (measurementUnit === 'mm'
-        ? nutPosition
-        : nutPosition / 25.4
-      ).toFixed(2)
-    );
-    adjustedScaleLength -= fretSpacingInMillimeters;
-  }
-
-  storeFretDistances({
-    ...state,
-    fretToFretPlacements,
-    fretFromNutPlacements,
-  });
-
-  setState({
-    ...state,
-    fretToFretPlacements,
-    fretFromNutPlacements,
-  });
-};
+    const { scaleLength, fretCount, measurementUnit } = state;
+    const denominator = 17.817;
+    const conversionFactor = measurementUnit === 'mm' ? 25.4 : 1;
+    const fretToFretPlacements = [];
+    const fretFromNutPlacements = [];
+    let adjustedScaleLength = parseFloat(scaleLength) || 0;
+    let nutPosition = 0;
+  
+    for (let i = 0; i < parseInt(fretCount) || 0; i++) {
+      const fretSpacingInMillimeters = adjustedScaleLength / denominator;
+      const fretSpacingInInches = fretSpacingInMillimeters / conversionFactor;
+  
+      fretToFretPlacements.push(
+        (measurementUnit === 'mm'
+          ? fretSpacingInMillimeters
+          : fretSpacingInInches
+        ).toFixed(2)
+      );
+      nutPosition += fretSpacingInMillimeters;
+      fretFromNutPlacements.push(
+        (measurementUnit === 'mm'
+          ? nutPosition
+          : nutPosition / conversionFactor
+        ).toFixed(2)
+      );
+      adjustedScaleLength -= fretSpacingInMillimeters;
+    }
+  
+    storeFretDistances({
+      ...state,
+      fretToFretPlacements,
+      fretFromNutPlacements,
+    });
+  
+    setState({
+      ...state,
+      fretToFretPlacements,
+      fretFromNutPlacements,
+    });
+  };
+  
+  
 
   return (
     <div className="calculator-container">
       <h2>Basic Fret Distance Calculator</h2>
       <div className="input-section">
         <label>
-          Scale Length ({state.measurementUnit === 'mm' ? 'mm' : 'inches'}):
+          Scale Length ({state.measurementUnit}):
           <input
             type="text"
             name="scaleLength"
@@ -159,7 +157,7 @@ function BasicFretDistanceCalculator() {
         <div className="fret-calc-value-list">
           {state.fretFromNutPlacements.map((distance, index) => (
             <div key={index}>
-              {`Fret ${index+1}: ${distance}`} {state.measurementUnit === 'mm' ? 'mm' : 'inches'}
+              {`Fret ${index+1}: ${distance}`} {state.measurementUnit}
             </div>
           ))}
         </div>
@@ -167,7 +165,7 @@ function BasicFretDistanceCalculator() {
         <div className="fret-calc-value-list">
           {state.fretToFretPlacements.map((distance, index) => (
             <div key={index}>
-              {`Fret ${index+1}: ${distance}`} {state.measurementUnit === 'mm' ? 'mm' : 'inches'}
+              {`Fret ${index+1}: ${distance}`} {state.measurementUnit}
             </div>
           ))}
         </div>

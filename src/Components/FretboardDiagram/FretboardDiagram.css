@@ -6,32 +6,7 @@
 
 
   }
-  canvas{
-  }
-  .fret-line {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px; /* Adjust as needed */
-    height: 30px; /* Adjust as needed */
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
-    font-weight: bold;
-  }
-  
-  svg {
-    margin-top: 20px; /* Adjust as needed */
-  }
 
-  .zoom-buttons{
-    display: grid; 
-
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    
-    gap: 1em;
-    height: 100%;
+  svg{
+    max-height:90vh;
   }

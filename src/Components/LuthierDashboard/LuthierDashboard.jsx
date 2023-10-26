@@ -3,13 +3,20 @@ import BasicFretDistanceCalculator from './../BasicFretDistanceCalculator/BasicF
 import MultiscaleFretDistanceCalculator from './../MultiscaleFretDistanceCalculator/MultiScaleFretDistanceCalculator';
 import FretboardDiagram from './../FretboardDiagram/FretboardDiagram';
 import './LuthierDashboard.css';
+import { useFretboard } from '../../Utilities/FretboardContext'; // Import the context
 
 function FretCalculator() {
   const [selectedOption, setSelectedOption] = useState('basic');
   const [measurementUnit, setMeasurementUnit] = useState('mm');
+  const { updateFretCount, fretCount } = useFretboard(); // Access the context for fretCount
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
+  };
+
+  const handleFretCountChange = (event) => {
+    const newFretCount = parseInt(event.target.value);
+    updateFretCount(newFretCount); // Update fretCount in the context
   };
 
   return (
@@ -41,6 +48,7 @@ function FretCalculator() {
         ) : (
           <MultiscaleFretDistanceCalculator />
         )}
+
       </div>
       <div className="main">
         <FretboardDiagram measurementUnit={measurementUnit} />
