@@ -9,4 +9,13 @@
 
   svg{
     max-height:90vh;
+    rotate: 90deg;
+  }
+
+  .outline {
+    fill: none;        /* No fill */
+    stroke: black;     /* Stroke color (e.g., black) */
+    stroke-width: 2px; /* Stroke width (adjust as needed) */
+    stroke-linecap: round; /* Round line caps (optional) */
+    stroke-linejoin: round; /* Round line joins (optional) */
   }

@@ -51,7 +51,7 @@ function FretCalculator() {
 
       </div>
       <div className="main">
-        <FretboardDiagram measurementUnit={measurementUnit} />
+        <FretboardDiagram measurementUnit={measurementUnit} fretCount={fretCount} />
       </div>
     </div>
   );
