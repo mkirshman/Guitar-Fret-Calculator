@@ -15,7 +15,6 @@ function BasicFretDistanceCalculator() {
   };
 
   const [state, setState] = useState(initialState);
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setState({
