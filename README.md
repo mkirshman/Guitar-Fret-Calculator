@@ -44,6 +44,3 @@ Optionally, generate G-code for CNC machining using the provided button.
 Screenshots
 Include screenshots or images showcasing the application's user interface and functionality.
 
-## Contributing
-If you'd like to contribute to the project, please follow the guidelines in CONTRIBUTING.md.
-
