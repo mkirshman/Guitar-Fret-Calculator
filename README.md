@@ -18,23 +18,20 @@ Include a link to a live demo or a GIF/video showcasing the application's functi
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/your-username/guitar-fret-calculator.git`
+
+      ```git clone https://github.com/your-username/guitar-fret-calculator.git   ```
    
 2. Change into the project directory
 
-```bash
-cd guitar-fret-calculator`
+```cd guitar-fret-calculator```
 
 3. Install dependencies:
 
-```bash
-npm install`
+```npm install```
 
 4. Start the application:
 
-```bash
-npm start`
+```npm start```
 
 The app will be accessible at http://localhost:3000 by default.
 
