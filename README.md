@@ -23,15 +23,15 @@ Include a link to a live demo or a GIF/video showcasing the application's functi
    
 2. Change into the project directory
 
-```cd guitar-fret-calculator```
+      ```cd guitar-fret-calculator```
 
 3. Install dependencies:
 
-```npm install```
+      ```npm install```
 
 4. Start the application:
 
-```npm start```
+      ```npm start```
 
 The app will be accessible at http://localhost:3000 by default.
 
